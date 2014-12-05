@@ -1,11 +1,18 @@
 package com.example.shanbeireader;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.nineoldandroids.view.ViewHelper;
 
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -32,12 +39,26 @@ public class MainActivity extends FragmentActivity {
         
         // title
         TextView title = (TextView)findViewById(R.id.title);
-        final TextView text = (TextView)findViewById(R.id.text);
+        //TextView text = (TextView)findViewById(R.id.text);
         title.setText("Finding fossil man 发现化石人");
-        String tmp = "First listen and then answer the following question.\n听录音，然后回答以下问题。\n\nWhy are legends handed down by storytellers useful?\n\n    We can read of things that happened 5,000 years ago in the Near East, where people first learned to write. But there are some parts of the word where even now people cannot write. The only way that they can preserve their history is to recount it as sagas -- legends handed down from one generation of another. These legends are useful because they can tell us something about migrations of people who lived long ago, but none could write down what they did. Anthropologists wondered where the remote ancestors of the Polynesian peoples now living in the Pacific Islands came from. The sagas of these people explain that some of them came from Indonesia about 2,000 years ago.";
-        for(int i = 0; i < 10; ++i)
-        	tmp += tmp;
-        text.setText(tmp);
+        
+        final TextView content = (TextView) findViewById(R.id.text);
+        String str = "fsadgfag abc fdsfagate";
+        SpannableString s = new SpannableString(str);
+    
+        Pattern p = Pattern.compile("abc");
+        
+        
+         Matcher m = p.matcher(s);
+
+        while (m.find()) {
+            int start = m.start();
+            int end = m.end();
+            System.out.println("start " + start);
+            System.out.println("end " + end);
+            s.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        content.setText(s);
         
 
         // list2 update!
@@ -54,10 +75,10 @@ public class MainActivity extends FragmentActivity {
 				// TODO Auto-generated method stub
 				System.out.println("hello list!!!" + position + " " + id);
 				if(position == 1) {
-					text.setText("First listen and then answer the following question.\n听录音，然后回答以下问题");
+					content.setText("First listen and then answer the following question.\n听录音，然后回答以下问题");
 				}
 				else {
-					text.setText("!!!!!!!!!!!!!!!!!!!!!");
+					content.setText("!!!!!!!!!!!!!!!!!!!!!");
 				}
 				
 			}
