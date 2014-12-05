@@ -7,8 +7,22 @@
       
         <RelativeLayout  
             android:layout_width="match_parent"  
-            android:layout_height="match_parent"  
-            android:background="@drawable/qq" >  
+            android:layout_height="match_parent"  >
+            <!--  android:background="@drawable/red" >-->
+            
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10pt"
+                />  
+                
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="5pt"
+                />  
       
             <Button  
                 android:layout_width="40dp"  

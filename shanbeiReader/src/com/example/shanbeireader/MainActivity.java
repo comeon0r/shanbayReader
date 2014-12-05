@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivity extends FragmentActivity {
@@ -44,6 +45,15 @@ public class MainActivity extends FragmentActivity {
 			}
         	
         });
+        
+        // title
+        TextView title = (TextView)findViewById(R.id.title);
+        TextView text = (TextView)findViewById(R.id.text);
+        title.setText("Finding fossil man 发现化石人");
+        String tmp = "First listen and then answer the following question.\n听录音，然后回答以下问题。\n\nWhy are legends handed down by storytellers useful?\n\n    We can read of things that happened 5,000 years ago in the Near East, where people first learned to write. But there are some parts of the word where even now people cannot write. The only way that they can preserve their history is to recount it as sagas -- legends handed down from one generation of another. These legends are useful because they can tell us something about migrations of people who lived long ago, but none could write down what they did. Anthropologists wondered where the remote ancestors of the Polynesian peoples now living in the Pacific Islands came from. The sagas of these people explain that some of them came from Indonesia about 2,000 years ago.";
+        for(int i = 0; i < 10; ++i)
+        	tmp += tmp;
+        text.setText(tmp);
         
         // acquire my drawer layout
         myDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerLayout);
