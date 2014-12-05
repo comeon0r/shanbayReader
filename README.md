@@ -6,8 +6,10 @@ an android txt reader
 
 ## what can do
 
-1. select an English article to read
-2. tips of level of the word.
+1. user can see a list of English articles after open.
+2. open one for reading.
+3. a button to highlight the words in word-list.
+4. a slide-bar to filter the highlighting words.
 
-## how to use
+## demo site
 
