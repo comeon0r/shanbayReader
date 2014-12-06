@@ -1,8 +1,11 @@
 package com.example.shanbeireader;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.nineoldandroids.view.ViewHelper;
 
 import android.support.v4.app.FragmentActivity;
@@ -12,16 +15,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.content.ContentValues;
+import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,6 +70,21 @@ public class MainActivity extends FragmentActivity {
         content.setText(s);
         
 
+
+        // import articles
+        ImageView importArticles = (ImageView)findViewById(R.id.rdfile);
+        importArticles.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				createWordsDB();
+				queryWordsDB();
+				return false;
+			}
+		});
+        
+        
         // list2 update!
         ListView list2 = (ListView)findViewById(R.id.list2);
         String[] arr = {"a", "b", "c"};
@@ -148,6 +172,54 @@ public class MainActivity extends FragmentActivity {
 			}
 		});
     }
+    
+
+    
+    public void createWordsDB() {
+    	MainActivity.this.deleteDatabase("wordsDB");
+		WordsDBHelper dbHelper = new WordsDBHelper(MainActivity.this,"wordsDB",null,1);
+		SQLiteDatabase db =dbHelper.getReadableDatabase();
+		//生成ContentValues对象 //key:列名，value:想插入的值    
+        ContentValues cv = new ContentValues();
+        AssetManager am = MainActivity.this.getAssets();
+        try {
+        	// open words file
+			InputStream is = am.open("nce4_words");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String str = "";
+			if (is!=null) {	
+				str = reader.readLine();
+				while ((str = reader.readLine()) != null) {	
+					System.out.println(str);
+					cv.clear();
+					cv.put("word", str.substring(0, str.length() - 1));
+					cv.put("level", Integer.parseInt(str.substring(str.length() - 1, str.length())));
+					db.insert("words_db", null, cv);
+					System.out.println("word " + str.substring(0, str.length() - 1));
+					System.out.println("level " + str.substring(str.length() - 1, str.length()));
+				}				
+			}		
+			is.close();	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        db.close();
+    }
+    
+    public void queryWordsDB() {
+    	WordsDBHelper dbHelper = new WordsDBHelper(MainActivity.this,"wordsDB",null,1);  
+        SQLiteDatabase db =dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from words_db where word like ?", new String[]{"%beast%"});
+        while(cursor.moveToNext()){  
+            String word = cursor.getString(cursor.getColumnIndex("word"));  
+            String level = cursor.getString(cursor.getColumnIndex("level"));  
+            System.out.println("query------->" + "单词："+word+" "+"级别："+level);  
+        }  
+        //关闭数据库  
+        db.close();  
+    }
+    
     
     public void OpenRightMenu(View view)
 	{
