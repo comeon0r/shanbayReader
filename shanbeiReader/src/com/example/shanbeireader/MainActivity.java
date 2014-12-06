@@ -49,7 +49,7 @@ public class MainActivity extends FragmentActivity {
         Pattern p = Pattern.compile("abc");
         
         
-         Matcher m = p.matcher(s);
+        Matcher m = p.matcher(s);
 
         while (m.find()) {
             int start = m.start();
