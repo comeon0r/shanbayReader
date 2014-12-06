@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.nineoldandroids.view.ViewHelper;
@@ -33,11 +34,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MainActivity extends FragmentActivity {
 	
 	private DrawerLayout myDrawerLayout;
+	private ListView list2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class MainActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         
+
+        //ArrayList<String>  arr = new ArrayList<String>();
+        //ArrayList<String>  arr = queryArticlesDB();
         
         // title
         TextView title = (TextView)findViewById(R.id.title);
@@ -78,17 +84,31 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				createWordsDB();
-				queryWordsDB();
+				// import words
+				/*createWordsDB();
+				queryWordsDB();*/
+				// import articles
+				createArticlesDB();
+		        Toast.makeText(getApplicationContext(), "文章导入结束", Toast.LENGTH_SHORT).show();
+		        ArrayList<String>  arr = queryTitlesDB();
+		        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, arr);
+		        ListView list2 = (ListView)findViewById(R.id.list2);
+		        list2.setAdapter(arrayAdapter);
+				//queryArticlesDB();
 				return false;
 			}
 		});
         
         
         // list2 update!
-        ListView list2 = (ListView)findViewById(R.id.list2);
-        String[] arr = {"a", "b", "c"};
+        //String[] arr = {"a", "b", "c"};
+        //ArrayList<String> arr = new ArrayList<String>(); 
+        /*for(int i = 0; i < arr.size(); ++i) {
+        	System.out.println("arr " + arr.get(i));
+        }*/
+        ArrayList<String>  arr = new ArrayList<String>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
+        list2 = (ListView)findViewById(R.id.list2);
         list2.setAdapter(arrayAdapter);
         list2.setOnItemClickListener(new OnItemClickListener()
         {
@@ -98,12 +118,20 @@ public class MainActivity extends FragmentActivity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				System.out.println("hello list!!!" + position + " " + id);
-				if(position == 1) {
+				
+				String title = (String) list2.getItemAtPosition(position);
+				//System.out.println("selected item " + str);
+				
+				String str = queryContentByTitle(title);
+				content.setText(str);
+				
+				
+				/*if(position == 1) {
 					content.setText("First listen and then answer the following question.\n听录音，然后回答以下问题");
 				}
 				else {
 					content.setText("!!!!!!!!!!!!!!!!!!!!!");
-				}
+				}*/
 				
 			}
         	
@@ -178,7 +206,7 @@ public class MainActivity extends FragmentActivity {
     public void createWordsDB() {
     	MainActivity.this.deleteDatabase("wordsDB");
 		WordsDBHelper dbHelper = new WordsDBHelper(MainActivity.this,"wordsDB",null,1);
-		SQLiteDatabase db =dbHelper.getReadableDatabase();
+		SQLiteDatabase db =dbHelper.getWritableDatabase();
 		//生成ContentValues对象 //key:列名，value:想插入的值    
         ContentValues cv = new ContentValues();
         AssetManager am = MainActivity.this.getAssets();
@@ -218,6 +246,92 @@ public class MainActivity extends FragmentActivity {
         }  
         //关闭数据库  
         db.close();  
+    }
+    
+    public void createArticlesDB() {
+    	MainActivity.this.deleteDatabase("articlesDB");
+    	ArticlesDBHelper dbHelper = new ArticlesDBHelper(MainActivity.this,"articlesDB",null,1);
+    	SQLiteDatabase db =dbHelper.getWritableDatabase();
+    	ContentValues cv = new ContentValues();
+        String tmp = "";
+        AssetManager am = MainActivity.this.getAssets();
+        try {          
+            boolean isTitle = false;
+			InputStream is = am.open("book.txt");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String str = "";
+			if (is!=null) {	
+				str = reader.readLine();
+				while ((str = reader.readLine()) != null) {	
+					if(str.contains("Lesson ")) {
+						if(!tmp.equals("")) {
+							cv.put("content", tmp);
+							//System.out.println("content " + tmp);
+							db.insert("articles_table", null, cv);
+							tmp = "";
+						}
+						tmp = "";
+						// 下一行
+						str = reader.readLine().trim();
+						str = str + " " + reader.readLine().trim();
+						cv.clear();
+						cv.put("title", str);
+						//System.out.println("title " + str);
+						isTitle = true;
+					} else if(str.contains("Unit ")) {
+						isTitle = false;
+					} else {
+						tmp = tmp + "\n" + str;
+					}
+				}				
+			}		
+			is.close();	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        db.close();
+    }
+    
+    public ArrayList<String> queryTitlesDB() {
+    	ArticlesDBHelper dbHelper = new ArticlesDBHelper(MainActivity.this,"articlesDB",null,1);  
+        SQLiteDatabase db =dbHelper.getReadableDatabase();
+        //Cursor cursor = db.rawQuery("select * from articles_table where word like ?", new String[]{"%beast%"});
+        Cursor cursor = db.rawQuery("select title from articles_table", null);
+        //cursor.moveToFirst();
+        ArrayList<String> arr = new ArrayList<String>();
+        //arr.add(cursor.getString(cursor.getColumnIndexOrThrow("title")));
+        while(cursor.moveToNext()){  
+        	arr.add(cursor.getString(cursor.getColumnIndex("title")));
+        	/*String title = cursor.getString(cursor.getColumnIndex("title"));
+        	System.out.println("query------->" + "标题："+title);
+            String word = cursor.getString(cursor.getColumnIndex("word"));  
+            String level = cursor.getString(cursor.getColumnIndex("level"));  
+            System.out.println("query------->" + "单词："+word+" "+"级别："+level);  */
+        }  
+        //关闭数据库  
+        db.close();  
+        return arr;
+    }
+    
+    public String queryContentByTitle(String title) {
+    	System.out.println("==================");
+    	ArticlesDBHelper dbHelper = new ArticlesDBHelper(MainActivity.this,"articlesDB",null,1);  
+        SQLiteDatabase db =dbHelper.getReadableDatabase();
+        //Cursor cursor = db.rawQuery("select content from articles_table", null);
+        Cursor cursor = db.rawQuery("select content from articles_table where title like ?", new String[]{title});
+        cursor.moveToFirst();
+        //ArrayList<String> arr = new ArrayList<String>();
+        String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+        //String content = cursor.getString(cursor.getColumnIndex("title"));
+        //String content = "";
+       /* while(cursor.moveToNext()){  
+        	String name = cursor.getString(cursor.getColumnIndex("content"));  
+            System.out.println("query------->" + "姓名："+name);  
+        }  */
+        //关闭数据库  
+        db.close();  
+        return content;
     }
     
     
