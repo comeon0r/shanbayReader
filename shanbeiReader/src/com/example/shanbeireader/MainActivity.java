@@ -30,17 +30,31 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends FragmentActivity {
-	
+	// midle
 	private DrawerLayout myDrawerLayout;
-	private ListView list2;
+	private TextView articleContent;
+	// left
+	private ListView articleList;
+	// right
+	private NumberPicker np;
+	private SeekBar levelBar;
+	private TextView levelText;
+	private ImageView importImageView;
+	// variables
+	private int curLevel = 6;
+	private String curContent = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +70,8 @@ public class MainActivity extends FragmentActivity {
         TextView title = (TextView)findViewById(R.id.title);
         //TextView text = (TextView)findViewById(R.id.text);
         title.setText("Finding fossil man 发现化石人");
-        
-        final TextView content = (TextView) findViewById(R.id.text);
+        /*
+        content = (TextView) findViewById(R.id.text);
         String str = "fsadgfag abc fdsfagate";
         SpannableString s = new SpannableString(str);
     
@@ -74,12 +88,12 @@ public class MainActivity extends FragmentActivity {
             s.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         content.setText(s);
-        
+        */
 
 
         // import articles
-        ImageView importArticles = (ImageView)findViewById(R.id.rdfile);
-        importArticles.setOnTouchListener(new View.OnTouchListener() {
+        importImageView = (ImageView)findViewById(R.id.rdfile);
+        importImageView.setOnTouchListener(new View.OnTouchListener() {
 			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -90,6 +104,7 @@ public class MainActivity extends FragmentActivity {
 				// import articles
 				createArticlesDB();
 		        Toast.makeText(getApplicationContext(), "文章导入结束", Toast.LENGTH_SHORT).show();
+		        
 		        ArrayList<String>  arr = queryTitlesDB();
 		        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, arr);
 		        ListView list2 = (ListView)findViewById(R.id.list2);
@@ -108,9 +123,9 @@ public class MainActivity extends FragmentActivity {
         }*/
         ArrayList<String>  arr = new ArrayList<String>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arr);
-        list2 = (ListView)findViewById(R.id.list2);
-        list2.setAdapter(arrayAdapter);
-        list2.setOnItemClickListener(new OnItemClickListener()
+        articleList = (ListView)findViewById(R.id.list2);
+        articleList.setAdapter(arrayAdapter);
+        articleList.setOnItemClickListener(new OnItemClickListener()
         {
 
 			@Override
@@ -119,23 +134,40 @@ public class MainActivity extends FragmentActivity {
 				// TODO Auto-generated method stub
 				System.out.println("hello list!!!" + position + " " + id);
 				
-				String title = (String) list2.getItemAtPosition(position);
+				String title = (String) articleList.getItemAtPosition(position);
 				//System.out.println("selected item " + str);
 				
-				String str = queryContentByTitle(title);
-				content.setText(str);
-				
-				
-				/*if(position == 1) {
-					content.setText("First listen and then answer the following question.\n听录音，然后回答以下问题");
-				}
-				else {
-					content.setText("!!!!!!!!!!!!!!!!!!!!!");
-				}*/
-				
+				curContent = queryContentByTitle(title);
+				showContent(curContent);
 			}
         	
         });
+        
+        levelText = (TextView) findViewById(R.id.lev);
+        levelBar = (SeekBar) findViewById(R.id.seekBar);
+        levelBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {       
+
+            @Override       
+            public void onStopTrackingTouch(SeekBar seekBar) {      
+                // TODO Auto-generated method stub      
+            }       
+
+            @Override       
+            public void onStartTrackingTouch(SeekBar seekBar) {     
+                // TODO Auto-generated method stub      
+            }       
+
+            @Override       
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {     
+                // TODO Auto-generated method stub 
+            	//int curLevel = (int)(progress * 0.6);
+            	levelText.setText("level " + progress);
+            	curLevel = progress;
+                Toast.makeText(getApplicationContext(), String.valueOf(progress),Toast.LENGTH_LONG).show();
+
+            }       
+        });    
+        
         
         // acquire my drawer layout
         myDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerLayout);
@@ -334,6 +366,24 @@ public class MainActivity extends FragmentActivity {
         return content;
     }
     
+    public void showContent(String str) {
+    	
+
+        articleContent = (TextView) findViewById(R.id.text);
+        SpannableString s = new SpannableString(str);    
+        Pattern p = Pattern.compile("trends");
+        Matcher m = p.matcher(s);
+
+        while (m.find()) {
+            int start = m.start();
+            int end = m.end();
+            System.out.println("start " + start);
+            System.out.println("end " + end);
+            s.setSpan(new ForegroundColorSpan(Color.GREEN), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        articleContent.setText(s);
+		
+    }
     
     public void OpenRightMenu(View view)
 	{

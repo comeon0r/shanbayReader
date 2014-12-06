@@ -16,9 +16,9 @@
             
             <TextView
                 android:id="@+id/title"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8pt"
+                android:textSize="25sp"
                 />  
                 
             
@@ -40,7 +40,7 @@
 				<TextView android:id="@+id/text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:textSize="6pt">
+					android:textSize="20sp">
 				</TextView>
 			</ScrollView>
             
