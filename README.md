@@ -18,5 +18,19 @@ an android txt reader
 ![alt tag](http://ww4.sinaimg.cn/mw690/5f10acdbgw1en13dkgu39j20f00qogmp.jpg)
 
 
-2. 
+2. slide from left to right to select one article
 
+![alt tag](http://ww4.sinaimg.cn/mw690/5f10acdbgw1en13dlsjtmj20f00qowhc.jpg)
+
+![alt tag](http://ww4.sinaimg.cn/mw690/5f10acdbgw1en13dlsjtmj20f00qowhc.jpg)
+
+3. click the title to open the setting options
+
+![alt tag](http://ww4.sinaimg.cn/mw690/5f10acdbgw1en13dmfourj20f00qoabx.jpg)
+
+change the settings
+
+![alt tag](http://ww3.sinaimg.cn/mw690/5f10acdbgw1en13dnai3kj20f00qo40e.jpg)
+
+last look
+![alt tag](http://ww3.sinaimg.cn/mw690/5f10acdbgw1en13dnw4bpj20f00qogo9.jpg)
