@@ -23,28 +23,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginBottom="50dp"
-            android:text="讨论组"
+            android:text="@string/level"
             android:textColor="#ffffff" />
-        
-
-        <ImageView
-            android:id="@+id/rdfile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:contentDescription="import files"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/readfile" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="50dp"
-            android:text="导入文章"
-            android:textColor="#ffffff" />
-        
-        
 
         <Switch
         android:id="@+id/mySwitch"
@@ -57,7 +37,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="讨论组"
+            android:text="@string/status"
             android:textColor="#ffffff" />
     
 

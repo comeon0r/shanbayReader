@@ -12,23 +12,35 @@
             android:orientation="vertical"
             >
             
-        <TableRow >
+        <TableRow                 
+                android:onClick="OpenRightMenu" 
+            	>
             
             <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:id="@+id/titleE"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:gravity="center"
+                android:textSize="25sp"                
+                android:onClick="OpenRightMenu" 
                 />  
                 
             
-            <Button  
-                android:layout_width="40dp"  
-                android:layout_height="30dp"  
-                android:layout_marginTop="10dp"  
-                android:background="@drawable/youce"  
+        </TableRow>
+        
+        <TableRow                 
                 android:onClick="OpenRightMenu" 
-                /> 
+            	>
+            
+            <TextView
+                android:id="@+id/titleC"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="25sp"                
+                android:onClick="OpenRightMenu" 
+                />  
+                
             
         </TableRow>
             
@@ -46,38 +58,8 @@
             
             
         </TableLayout>
-      
-       <!--   <RelativeLayout  
-            android:layout_width="match_parent"  
-            android:layout_height="match_parent"  >
-            android:background="@drawable/red" >
-            
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="10pt"
-                />  
-                
-            <ScrollView android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_gravity="bottom">
-				<TextView android:id="@+id/text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textSize="8pt">
-				</TextView>
-			</ScrollView> 
-      
-            <Button  
-                android:layout_width="40dp"  
-                android:layout_height="30dp"  
-                 android:layout_marginTop="10dp"  
-                android:layout_alignParentRight="true"  
-                android:background="@drawable/youce"  
-                android:onClick="OpenRightMenu" />  
-        </RelativeLayout>  
-      -->
+        
+        
         <fragment  
             android:id="@+id/id_left_menu"  
             android:name="com.example.shanbeireader.Books"  

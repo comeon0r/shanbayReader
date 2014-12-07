@@ -32,26 +32,27 @@ public final class R {
         public static final int qq=0x7f020007;
         public static final int readfile=0x7f020008;
         public static final int saoma=0x7f020009;
-        public static final int wode=0x7f02000a;
-        public static final int youce=0x7f02000b;
+        public static final int setting=0x7f02000a;
+        public static final int wode=0x7f02000b;
+        public static final int youce=0x7f02000c;
     }
     public static final class id {
         public static final int action_settings=0x7f08000f;
-        public static final int five=0x7f08000a;
-        public static final int four=0x7f080009;
+        public static final int five=0x7f08000b;
+        public static final int four=0x7f08000a;
         public static final int id_drawerLayout=0x7f080000;
-        public static final int id_left_menu=0x7f080003;
-        public static final int id_right_menu=0x7f080004;
-        public static final int lev=0x7f08000c;
-        public static final int list2=0x7f080005;
+        public static final int id_left_menu=0x7f080004;
+        public static final int id_right_menu=0x7f080005;
+        public static final int lev=0x7f08000d;
+        public static final int list2=0x7f080006;
         public static final int mySwitch=0x7f08000e;
-        public static final int one=0x7f080006;
-        public static final int rdfile=0x7f08000d;
-        public static final int seekBar=0x7f08000b;
-        public static final int text=0x7f080002;
-        public static final int three=0x7f080008;
-        public static final int title=0x7f080001;
-        public static final int two=0x7f080007;
+        public static final int one=0x7f080007;
+        public static final int seekBar=0x7f08000c;
+        public static final int text=0x7f080003;
+        public static final int three=0x7f080009;
+        public static final int titleC=0x7f080002;
+        public static final int titleE=0x7f080001;
+        public static final int two=0x7f080008;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -66,6 +67,8 @@ public final class R {
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050001;
+        public static final int level=0x7f050003;
+        public static final int status=0x7f050004;
     }
     public static final class style {
         /** 
