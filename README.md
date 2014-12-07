@@ -15,7 +15,7 @@ an android txt reader
 
 1. first look
 
-![alt tag](http://pan.baidu.com/s/1c0o15eg)
+![alt tag](http://ww4.sinaimg.cn/mw690/5f10acdbgw1en13dkgu39j20f00qogmp.jpg)
 
 
 2. 
