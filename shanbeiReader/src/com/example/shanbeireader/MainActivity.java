@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
         
         // initial title and content
         articleTitleE = (TextView)findViewById(R.id.titleE);
-        articleTitleE.setText("Welcome to use shanbeiReader");
+        articleTitleE.setText("Welcome to use");
         articleTitleC = (TextView)findViewById(R.id.titleC);
         articleTitleC.setText("ª∂”≠ π”√");
         articleContent = (TextView) findViewById(R.id.text);
